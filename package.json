@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "ioredis": "^5.2.4",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0"
