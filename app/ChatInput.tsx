@@ -1,5 +1,8 @@
 'use client'
 import { FormEvent, useState } from "react";
+// creates a unique id
+import { v4 as uuid } from 'uuid';
+import { Message } from "../types";
 
 function ChatInput() {
   const [input, setInput] = useState('');
@@ -8,6 +11,34 @@ function ChatInput() {
     if (!input) return;
     const inputToSend = input;
     setInput("");
+
+    const id = uuid();
+    const message: Message = {
+      id,
+      message: inputToSend,
+      created_at: Date.now(),
+      username: 'Elon Musk',
+      profilePic: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FFile%3APortrait_placeholder.png&psig=AOvVaw0wnW5lfRMUtJSGHBFGNX9L&ust=1672701112865000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCOCal6-_p_wCFQAAAAAdAAAAABAE',
+      email: 'test@gmail.com',
+    }
+
+    const uploadMessageToUpstash = async() => {
+      try {
+        const res = await fetch('/api/addMessage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message,
+          })
+        });
+
+        const data = await res.json;
+      } catch (error) {
+        console.log(error);
+      }
+    };
   }
 
   return (
