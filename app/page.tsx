@@ -1,8 +1,11 @@
+import ChatInput from "./ChatInput";
+import MessageList from "./MessageList";
+
 function HomePage() {
   return (
     <main>
-      {/* MessageList */}
-      {/* ChatBox */}
+      <MessageList />
+      <ChatInput />
     </main>
   )
 }
