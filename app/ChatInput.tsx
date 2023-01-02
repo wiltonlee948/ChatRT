@@ -3,9 +3,15 @@ import { FormEvent, useState } from "react";
 // creates a unique id
 import { v4 as uuid } from 'uuid';
 import { Message } from "../types";
+// allows you to fetch and then cache that data so you dont need to make additional requests
+import useSWR from 'swr';
+import fetcher from "../fetchMessages";
 
 function ChatInput() {
   const [input, setInput] = useState('');
+  // useSWR(key, fetcher)
+  const { data, error, mutate } = useSWR('/api/getMessages', fetcher);
+
   const addMessage = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (!input) return;
@@ -35,10 +41,13 @@ function ChatInput() {
         });
 
         const data = await res.json;
+        console.log('ADDED MESSAGE', data);
       } catch (error) {
         console.log(error);
       }
     };
+
+    uploadMessageToUpstash();
   }
 
   return (
