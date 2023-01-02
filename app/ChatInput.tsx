@@ -9,10 +9,11 @@ import fetcher from "../fetchMessages";
 
 function ChatInput() {
   const [input, setInput] = useState('');
-  // useSWR(key, fetcher)
+  // useSWR(key to access cache, fetcher)
   const { data, error, mutate } = useSWR('/api/getMessages', fetcher);
 
-  const addMessage = (e: FormEvent<HTMLFormElement>): void => {
+  console.log('DATA', data);
+  const addMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input) return;
     const inputToSend = input;
@@ -40,14 +41,18 @@ function ChatInput() {
           })
         });
 
-        const data = await res.json;
-        console.log('ADDED MESSAGE', data);
+        const resData = await res.json();
+        //using the bang operator to make sure that data is not undefined
+        return [resData.message, ...data!]
       } catch (error) {
         console.log(error);
       }
     };
-
-    uploadMessageToUpstash();
+    // passing function to mutate will invoke function and its return value is used to update cache
+    await mutate(uploadMessageToUpstash, {
+      optimisticData: [message, ...data!],
+      rollbackOnError: true,
+    })
   }
 
   return (

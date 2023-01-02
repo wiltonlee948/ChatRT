@@ -20,8 +20,10 @@ export default async function handler(
   }
   // retrieves all the messages from redis db
   const messagesRes = await redis.hvals('messages')
-  // sort messages in ascending order
-  const messages: Message[] = messagesRes.map(message => JSON.parse(message)).sort((a, b) => b.created_at - a.created_at)
+  // parse then sort messages in ascending order
+  const messages: Message[] = messagesRes
+    .map(message => JSON.parse(message))
+    .sort((a, b) => a.created_at - b.created_at);
 
   res.status(200).json( { messages })
 }
