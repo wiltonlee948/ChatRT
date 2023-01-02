@@ -25,7 +25,7 @@ function ChatInput() {
       message: inputToSend,
       created_at: Date.now(),
       username: 'Elon Musk',
-      profilePic: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FFile%3APortrait_placeholder.png&psig=AOvVaw0wnW5lfRMUtJSGHBFGNX9L&ust=1672701112865000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCOCal6-_p_wCFQAAAAAdAAAAABAE',
+      profilePic: 'https://links.papareact.com/jne',
       email: 'test@gmail.com',
     }
 
